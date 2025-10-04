@@ -2,13 +2,26 @@
 
 Official Python SDK for the ChatRoutes API - A powerful conversation management platform with advanced branching capabilities.
 
+> **⚠️ Beta Release**: ChatRoutes is currently in beta. The API may change without maintaining backward compatibility. Please use with caution in production environments.
+
 ## Installation
 
 ```bash
 pip install chatroutes
 ```
 
-## Quick Start
+## Getting Started
+
+### 1. Get Your API Key
+
+First, you need to obtain an API key:
+
+1. Visit [chatroutes.com](https://chatroutes.com)
+2. Sign up for a free account
+3. Navigate to your account settings
+4. Generate your API key
+
+### 2. Quick Start
 
 ```python
 from chatroutes import ChatRoutes

@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2025-10-04
+## [0.1.0] - 2025-10-04
 
 ### Added
-- Initial release of ChatRoutes Python SDK
+- Initial beta release of ChatRoutes Python SDK
+- ⚠️ **Beta Notice**: API may change without backward compatibility
 - Full API support for conversations, messages, and branches
 - Streaming response support with Server-Sent Events (SSE)
 - Automatic retry logic with exponential backoff
@@ -37,5 +38,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - requests >= 2.31.0
 - typing-extensions >= 4.0.0
 
-[Unreleased]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/chatroutes/chatroutes-python-sdk/releases/tag/v1.0.0
+[Unreleased]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/chatroutes/chatroutes-python-sdk/releases/tag/v0.1.0

@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="chatroutes",
-    version="1.0.0",
+    version="0.1.0",
     author="ChatRoutes",
     author_email="support@chatroutes.com",
     description="Official Python SDK for ChatRoutes API - Conversation branching and multi-model AI chat",
@@ -19,7 +19,7 @@ setup(
     },
     packages=find_packages(exclude=["tests*", "examples*"]),
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: MIT License",
