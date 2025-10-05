@@ -91,14 +91,23 @@ def on_chunk(chunk):
 
 #### 3. Updated Supported Models
 
-Added all supported models and clarified that exact names must be used:
+Updated model list to include all currently supported models:
 
+**OpenAI:**
 - `gpt-5` (default)
-- `claude-opus-4-1`
-- `claude-opus-4`
-- `claude-sonnet-4`
 
-**Important**: Using other model names like `gpt-4o` or `gpt-4o-mini` will result in errors.
+**Anthropic Claude 4:**
+- `claude-opus-4-1` - Claude Opus 4.1 (most capable)
+- `claude-opus-4` - Claude Opus 4
+- `claude-opus-4-0` - Claude Opus 4.0
+- `claude-sonnet-4-5` - Claude Sonnet 4.5 (best for coding)
+- `claude-sonnet-4-0` - Claude Sonnet 4.0
+
+**Anthropic Claude 3:**
+- `claude-3-7-sonnet-latest` - Claude 3.7 Sonnet
+- `claude-3-5-haiku-latest` - Claude 3.5 Haiku (fastest)
+
+**Important**: Using other model names like `gpt-4o`, `gpt-4o-mini`, or `claude-sonnet-4` will result in errors.
 
 ## Correct Usage
 

@@ -43,7 +43,7 @@ client = ChatRoutes(api_key="your-api-key")
 
 conversation = client.conversations.create({
     'title': 'My First Conversation',
-    'model': 'gpt-5'  # or 'claude-opus-4-1', 'claude-opus-4', 'claude-sonnet-4'
+    'model': 'gpt-5'  # or 'claude-opus-4-1', 'claude-sonnet-4-5', etc.
 })
 
 response = client.messages.send(
@@ -61,12 +61,21 @@ print(response['message']['content'])
 
 ChatRoutes currently supports the following AI models:
 
+**OpenAI:**
 - **`gpt-5`** (default) - OpenAI's GPT-5
-- **`claude-opus-4-1`** - Anthropic's Claude Opus 4.1
-- **`claude-opus-4`** - Anthropic's Claude Opus 4
-- **`claude-sonnet-4`** - Anthropic's Claude Sonnet 4
 
-**Important**: Use these exact model names. Other model names (e.g., `gpt-4o`, `gpt-4o-mini`) are not supported and will result in an error.
+**Anthropic Claude 4:**
+- **`claude-opus-4-1`** - Claude Opus 4.1 (most capable)
+- **`claude-opus-4`** - Claude Opus 4
+- **`claude-opus-4-0`** - Claude Opus 4.0
+- **`claude-sonnet-4-5`** - Claude Sonnet 4.5 (best for coding)
+- **`claude-sonnet-4-0`** - Claude Sonnet 4.0
+
+**Anthropic Claude 3:**
+- **`claude-3-7-sonnet-latest`** - Claude 3.7 Sonnet (latest)
+- **`claude-3-5-haiku-latest`** - Claude 3.5 Haiku (fastest)
+
+**Important**: Use these exact model names. Other model names (e.g., `gpt-4o`, `gpt-4o-mini`, `claude-sonnet-4`) are not supported and will result in an error.
 
 ## Features
 

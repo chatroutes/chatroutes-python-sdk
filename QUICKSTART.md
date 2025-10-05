@@ -31,7 +31,7 @@ client = ChatRoutes(api_key="your-api-key")
 ```python
 conversation = client.conversations.create({
     'title': 'My First Chat',
-    'model': 'gpt-5'  # Supported: gpt-5, claude-opus-4-1, claude-opus-4, claude-sonnet-4
+    'model': 'gpt-5'  # See README.md for full list of supported models
 })
 
 print(f"Conversation ID: {conversation['id']}")
