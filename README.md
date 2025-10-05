@@ -43,7 +43,7 @@ client = ChatRoutes(api_key="your-api-key")
 
 conversation = client.conversations.create({
     'title': 'My First Conversation',
-    'model': 'gpt-5'  # or 'claude-opus-4.1'
+    'model': 'gpt-5'  # or 'claude-opus-4-1', 'claude-opus-4', 'claude-sonnet-4'
 })
 
 response = client.messages.send(
@@ -54,17 +54,19 @@ response = client.messages.send(
     }
 )
 
-print(response['assistantMessage']['content'])
+print(response['message']['content'])
 ```
 
 ## Supported Models
 
 ChatRoutes currently supports the following AI models:
 
-- **`gpt-5`** - OpenAI's GPT-5
-- **`claude-opus-4.1`** - Anthropic's Claude Opus 4.1
+- **`gpt-5`** (default) - OpenAI's GPT-5
+- **`claude-opus-4-1`** - Anthropic's Claude Opus 4.1
+- **`claude-opus-4`** - Anthropic's Claude Opus 4
+- **`claude-sonnet-4`** - Anthropic's Claude Sonnet 4
 
-More models will be added as the platform evolves.
+**Important**: Use these exact model names. Other model names (e.g., `gpt-4o`, `gpt-4o-mini`) are not supported and will result in an error.
 
 ## Features
 
@@ -93,10 +95,13 @@ response = client.messages.send(
     conversation_id='conv_123',
     data={
         'content': 'What are the key features?',
-        'model': 'gpt-4',
+        'model': 'gpt-5',
         'temperature': 0.7
     }
 )
+
+print(response['message']['content'])  # AI response
+print(f"Tokens used: {response['usage']['totalTokens']}")
 ```
 
 ### Streaming Responses

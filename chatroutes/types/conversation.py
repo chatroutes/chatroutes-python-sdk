@@ -60,8 +60,9 @@ class SendMessageRequest(TypedDict, total=False):
 
 
 class SendMessageResponse(TypedDict):
-    userMessage: Message
-    assistantMessage: Message
+    message: Message
+    usage: dict
+    model: str
 
 
 class CreateBranchRequest(TypedDict, total=False):

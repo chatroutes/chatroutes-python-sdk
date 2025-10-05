@@ -20,8 +20,9 @@ response = client.messages.send(
     }
 )
 
-print(f"\nUser: {response['userMessage']['content']}")
-print(f"Assistant: {response['assistantMessage']['content']}")
+print(f"\nAssistant: {response['message']['content']}")
+print(f"Model: {response['model']}")
+print(f"Tokens used: {response['usage']['totalTokens']}")
 
 conversations = client.conversations.list({'limit': 5})
 print(f"\nTotal conversations: {conversations['total']}")

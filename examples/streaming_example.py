@@ -20,7 +20,7 @@ def on_chunk(chunk):
 
 def on_complete(response):
     print("\n\nStreaming complete!")
-    print(f"Full response saved with ID: {response['assistantMessage']['id']}")
+    print(f"Full response saved")
 
 print("Assistant: ", end='', flush=True)
 

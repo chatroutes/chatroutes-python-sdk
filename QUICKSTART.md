@@ -31,7 +31,7 @@ client = ChatRoutes(api_key="your-api-key")
 ```python
 conversation = client.conversations.create({
     'title': 'My First Chat',
-    'model': 'gpt-4'
+    'model': 'gpt-5'  # Supported: gpt-5, claude-opus-4-1, claude-opus-4, claude-sonnet-4
 })
 
 print(f"Conversation ID: {conversation['id']}")
@@ -44,11 +44,12 @@ response = client.messages.send(
     conversation['id'],
     {
         'content': 'Hello, how can I use ChatRoutes?',
-        'model': 'gpt-4'
+        'model': 'gpt-5'
     }
 )
 
-print(response['assistantMessage']['content'])
+print(response['message']['content'])  # AI response
+print(f"Tokens: {response['usage']['totalTokens']}")
 ```
 
 ### 4. Stream Responses
