@@ -43,19 +43,28 @@ client = ChatRoutes(api_key="your-api-key")
 
 conversation = client.conversations.create({
     'title': 'My First Conversation',
-    'model': 'gpt-4'
+    'model': 'gpt-5'  # or 'claude-opus-4.1'
 })
 
 response = client.messages.send(
     conversation['id'],
     {
         'content': 'Hello, how are you?',
-        'model': 'gpt-4'
+        'model': 'gpt-5'
     }
 )
 
 print(response['assistantMessage']['content'])
 ```
+
+## Supported Models
+
+ChatRoutes currently supports the following AI models:
+
+- **`gpt-5`** - OpenAI's GPT-5
+- **`claude-opus-4.1`** - Anthropic's Claude Opus 4.1
+
+More models will be added as the platform evolves.
 
 ## Features
 
@@ -73,7 +82,7 @@ print(response['assistantMessage']['content'])
 ```python
 conversation = client.conversations.create({
     'title': 'Product Discussion',
-    'model': 'gpt-4'
+    'model': 'gpt-5'
 })
 ```
 

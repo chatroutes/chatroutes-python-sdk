@@ -7,7 +7,7 @@ client = ChatRoutes(api_key=api_key)
 
 conversation = client.conversations.create({
     'title': 'Branching Example',
-    'model': 'gpt-4'
+    'model': 'gpt-5'
 })
 
 print(f"Created conversation: {conversation['id']}\n")
@@ -16,7 +16,7 @@ response1 = client.messages.send(
     conversation['id'],
     {
         'content': 'What are the benefits of Python?',
-        'model': 'gpt-4'
+        'model': 'gpt-5'
     }
 )
 
@@ -38,7 +38,7 @@ response2 = client.messages.send(
     conversation['id'],
     {
         'content': 'What are the challenges of Python?',
-        'model': 'gpt-4',
+        'model': 'gpt-5',
         'branchId': branch['id']
     }
 )

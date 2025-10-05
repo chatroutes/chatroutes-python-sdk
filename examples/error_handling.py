@@ -16,7 +16,7 @@ client = ChatRoutes(api_key=api_key)
 try:
     conversation = client.conversations.create({
         'title': 'Error Handling Example',
-        'model': 'gpt-4'
+        'model': 'gpt-5'
     })
 
     print(f"Created conversation: {conversation['id']}")

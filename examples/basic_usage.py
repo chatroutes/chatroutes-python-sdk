@@ -7,7 +7,7 @@ client = ChatRoutes(api_key=api_key)
 
 conversation = client.conversations.create({
     'title': 'Python SDK Example',
-    'model': 'gpt-4'
+    'model': 'gpt-5'  # or 'claude-opus-4.1'
 })
 
 print(f"Created conversation: {conversation['id']}")
@@ -16,7 +16,7 @@ response = client.messages.send(
     conversation['id'],
     {
         'content': 'Hello! Can you explain what ChatRoutes is?',
-        'model': 'gpt-4'
+        'model': 'gpt-5'
     }
 )
 

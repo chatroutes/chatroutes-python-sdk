@@ -7,7 +7,7 @@ client = ChatRoutes(api_key=api_key)
 
 conversation = client.conversations.create({
     'title': 'Streaming Example',
-    'model': 'gpt-4'
+    'model': 'gpt-5'
 })
 
 print(f"Created conversation: {conversation['id']}\n")
@@ -28,7 +28,7 @@ client.messages.stream(
     conversation['id'],
     {
         'content': 'Write a short poem about programming in Python',
-        'model': 'gpt-4',
+        'model': 'gpt-5',
         'temperature': 0.8
     },
     on_chunk=on_chunk,
