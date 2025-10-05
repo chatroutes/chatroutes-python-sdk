@@ -1,13 +1,16 @@
 # Python SDK Update - October 5, 2025
 
-## Response Format Fix
+## Response Format Fixes
 
-### Issue
+### Issue 1: Send Message Response
 The SDK was expecting `userMessage` and `assistantMessage` in the response, but the actual API returns only the assistant's message in a `message` field.
+
+### Issue 2: Streaming Response Format
+The SDK was expecting OpenAI-style streaming format with `choices` and `delta`, but the actual API uses a simpler format with `type` and `content` fields.
 
 ### Changes Made
 
-#### 1. Updated Type Definition
+#### 1. Updated Send Message Response Type
 
 **File**: `chatroutes/types/conversation.py`
 
@@ -26,7 +29,34 @@ class SendMessageResponse(TypedDict):
     model: str        # Model used
 ```
 
-#### 2. Updated Examples
+#### 2. Updated Streaming Response Type
+
+**File**: `chatroutes/types/conversation.py`
+
+**Before**:
+```python
+class StreamChunk(TypedDict):
+    id: str
+    model: str
+    choices: List[StreamChunkChoice]
+```
+
+**After**:
+```python
+class StreamChunk(TypedDict, total=False):
+    type: str              # 'content' or 'complete'
+    content: Optional[str] # Content chunk
+    model: Optional[str]   # Model name
+    message: Optional[dict] # Complete message (when type='complete')
+```
+
+#### 3. Updated HTTP Client Streaming
+
+**File**: `chatroutes/http_client.py`
+
+Now properly handles the ChatRoutes streaming format and returns the complete message when streaming finishes.
+
+#### 4. Updated Examples
 
 **Files Updated**:
 - `examples/basic_usage.py`
@@ -34,15 +64,29 @@ class SendMessageResponse(TypedDict):
 - `README.md`
 - `QUICKSTART.md`
 
-**Before**:
+**Send Message - Before**:
 ```python
 print(response['assistantMessage']['content'])
 ```
 
-**After**:
+**Send Message - After**:
 ```python
 print(response['message']['content'])
 print(f"Tokens used: {response['usage']['totalTokens']}")
+```
+
+**Streaming - Before**:
+```python
+def on_chunk(chunk):
+    if chunk['choices'][0]['delta'].get('content'):
+        print(chunk['choices'][0]['delta']['content'], end='')
+```
+
+**Streaming - After**:
+```python
+def on_chunk(chunk):
+    if chunk.get('type') == 'content' and chunk.get('content'):
+        print(chunk['content'], end='', flush=True)
 ```
 
 #### 3. Updated Supported Models
@@ -58,7 +102,7 @@ Added all supported models and clarified that exact names must be used:
 
 ## Correct Usage
 
-### Send Message
+### 1. Send Message (Non-Streaming)
 
 ```python
 from chatroutes import ChatRoutes
@@ -82,8 +126,36 @@ print(response['usage']['totalTokens']) # Token count
 print(response['model'])                # 'gpt-5-2025-08-07'
 ```
 
-### Response Structure
+### 2. Streaming Messages
 
+```python
+def on_chunk(chunk):
+    # Handle content chunks
+    if chunk.get('type') == 'content':
+        print(chunk.get('content', ''), end='', flush=True)
+
+    # Handle completion
+    elif chunk.get('type') == 'complete':
+        print(f"\n\nMessage saved with ID: {chunk['message']['id']}")
+
+def on_complete(message):
+    # Called when streaming finishes
+    print(f"Total tokens: {message.get('tokenCount', 'N/A')}")
+
+client.messages.stream(
+    conversation['id'],
+    {
+        'content': 'Tell me a joke',
+        'model': 'gpt-5'
+    },
+    on_chunk=on_chunk,
+    on_complete=on_complete
+)
+```
+
+### 3. Response Structures
+
+**Non-Streaming Response**:
 ```python
 {
     'message': {
@@ -110,11 +182,39 @@ print(response['model'])                # 'gpt-5-2025-08-07'
 }
 ```
 
+**Streaming Chunks**:
+```python
+# Content chunk
+{
+    'type': 'content',
+    'content': 'Hello',
+    'model': 'gpt-5-2025-08-07'
+}
+
+# Completion chunk
+{
+    'type': 'complete',
+    'message': {
+        'id': 'msg_...',
+        'role': 'assistant',
+        'content': 'Full response here',
+        'tokenCount': 42,
+        'createdAt': '2025-10-05T...'
+    },
+    'usage': {
+        'promptTokens': 10,
+        'completionTokens': 42,
+        'totalTokens': 52
+    },
+    'model': 'gpt-5-2025-08-07'
+}
+```
+
 ## Migration Guide
 
 If you're using an older version of the SDK:
 
-### Change 1: Update response access
+### Change 1: Update non-streaming response access
 
 ```python
 # OLD (will cause KeyError)
@@ -126,7 +226,21 @@ ai_msg = response['message']['content']
 tokens = response['usage']['totalTokens']
 ```
 
-### Change 2: Update model names
+### Change 2: Update streaming callback
+
+```python
+# OLD (will cause KeyError)
+def on_chunk(chunk):
+    if chunk['choices'][0]['delta'].get('content'):
+        print(chunk['choices'][0]['delta']['content'], end='')
+
+# NEW
+def on_chunk(chunk):
+    if chunk.get('type') == 'content' and chunk.get('content'):
+        print(chunk['content'], end='', flush=True)
+```
+
+### Change 3: Update model names
 
 ```python
 # OLD (will cause "Unsupported model" error)
@@ -144,11 +258,13 @@ conversation = client.conversations.create({
 
 ## Files Changed
 
-- `chatroutes/types/conversation.py`
-- `examples/basic_usage.py`
-- `examples/streaming_example.py`
-- `README.md`
-- `QUICKSTART.md`
+- `chatroutes/types/conversation.py` - Updated SendMessageResponse and StreamChunk types
+- `chatroutes/http_client.py` - Fixed streaming to handle ChatRoutes format
+- `chatroutes/resources/messages.py` - Simplified stream() method
+- `examples/basic_usage.py` - Updated response access
+- `examples/streaming_example.py` - Updated streaming callbacks
+- `README.md` - Updated all examples
+- `QUICKSTART.md` - Updated all examples
 - `SDK_UPDATE_2025-10-05.md` (this file)
 
 ## Version

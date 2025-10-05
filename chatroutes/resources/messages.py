@@ -27,61 +27,19 @@ class MessagesResource:
         conversation_id: str,
         data: SendMessageRequest,
         on_chunk: Callable[[StreamChunk], None],
-        on_complete: Optional[Callable[[SendMessageResponse], None]] = None
+        on_complete: Optional[Callable[[dict], None]] = None
     ) -> None:
-        full_content = ''
-        user_message_id = ''
-        assistant_message_id = ''
-        model = ''
-        finish_reason = None
-
         def handle_chunk(chunk: StreamChunk):
-            nonlocal full_content, user_message_id, assistant_message_id, model, finish_reason
-
-            if chunk.get('choices') and len(chunk['choices']) > 0:
-                choice = chunk['choices'][0]
-                delta = choice.get('delta', {})
-
-                if delta.get('content'):
-                    full_content += delta['content']
-
-                if choice.get('finish_reason'):
-                    finish_reason = choice['finish_reason']
-
-            if chunk.get('model'):
-                model = chunk['model']
-
             on_chunk(chunk)
 
-            if finish_reason and on_complete:
-                import datetime
-                complete_response: SendMessageResponse = {
-                    'userMessage': {
-                        'id': user_message_id or f"msg_{int(datetime.datetime.now().timestamp())}_user",
-                        'conversationId': conversation_id,
-                        'role': 'user',
-                        'content': data['content'],
-                        'createdAt': datetime.datetime.now().isoformat()
-                    },
-                    'assistantMessage': {
-                        'id': assistant_message_id or f"msg_{int(datetime.datetime.now().timestamp())}_assistant",
-                        'conversationId': conversation_id,
-                        'role': 'assistant',
-                        'content': full_content,
-                        'createdAt': datetime.datetime.now().isoformat(),
-                        'metadata': {
-                            'model': model,
-                            'finishReason': finish_reason
-                        }
-                    }
-                }
-                on_complete(complete_response)
-
-        self._client._http.stream(
+        complete_message = self._client._http.stream(
             f'/conversations/{conversation_id}/messages/stream',
             data,
             handle_chunk
         )
+
+        if on_complete and complete_message:
+            on_complete(complete_message)
 
     def list(self, conversation_id: str, branch_id: Optional[str] = None) -> List[Message]:
         params = {}

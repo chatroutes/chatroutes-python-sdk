@@ -13,10 +13,8 @@ conversation = client.conversations.create({
 print(f"Created conversation: {conversation['id']}\n")
 
 def on_chunk(chunk):
-    if chunk.get('choices') and len(chunk['choices']) > 0:
-        delta = chunk['choices'][0].get('delta', {})
-        if delta.get('content'):
-            print(delta['content'], end='', flush=True)
+    if chunk.get('type') == 'content' and chunk.get('content'):
+        print(chunk['content'], end='', flush=True)
 
 def on_complete(response):
     print("\n\nStreaming complete!")

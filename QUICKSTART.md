@@ -56,13 +56,17 @@ print(f"Tokens: {response['usage']['totalTokens']}")
 
 ```python
 def on_chunk(chunk):
-    if chunk['choices'][0]['delta'].get('content'):
-        print(chunk['choices'][0]['delta']['content'], end='', flush=True)
+    if chunk.get('type') == 'content' and chunk.get('content'):
+        print(chunk['content'], end='', flush=True)
+
+def on_complete(message):
+    print(f"\n\nCompleted! Message ID: {message['id']}")
 
 client.messages.stream(
     conversation['id'],
     {'content': 'Tell me about AI'},
-    on_chunk=on_chunk
+    on_chunk=on_chunk,
+    on_complete=on_complete
 )
 ```
 

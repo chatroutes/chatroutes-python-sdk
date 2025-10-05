@@ -158,20 +158,28 @@ class HttpClient:
                     error_data = {'error': 'Invalid JSON response'}
                 raise self._handle_error_response(response.status_code, error_data)
 
+            complete_message = None
+
             for line in response.iter_lines():
                 if line:
                     decoded_line = line.decode('utf-8')
                     if decoded_line.startswith('data: '):
                         data_str = decoded_line[6:]
                         if data_str == '[DONE]':
-                            return
+                            return complete_message
 
                         try:
                             import json
                             chunk_data = json.loads(data_str)
+
+                            if chunk_data.get('type') == 'complete':
+                                complete_message = chunk_data.get('message')
+
                             on_chunk(chunk_data)
                         except json.JSONDecodeError:
                             pass
+
+            return complete_message
 
         except requests.exceptions.RequestException as e:
             raise NetworkError(f"Stream request failed: {str(e)}", {'error': str(e)})

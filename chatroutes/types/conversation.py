@@ -112,19 +112,9 @@ class PaginatedResponse(TypedDict):
     hasNext: Optional[bool]
 
 
-class StreamChunkDelta(TypedDict, total=False):
+class StreamChunk(TypedDict, total=False):
+    type: str
     content: Optional[str]
-    role: Optional[str]
-
-
-class StreamChunkChoice(TypedDict, total=False):
-    delta: StreamChunkDelta
-    finish_reason: Optional[str]
-    index: int
-
-
-class StreamChunk(TypedDict):
-    id: str
-    model: str
-    choices: List[StreamChunkChoice]
+    model: Optional[str]
+    message: Optional[dict]
     created: int

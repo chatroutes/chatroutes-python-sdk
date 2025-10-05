@@ -108,13 +108,17 @@ print(f"Tokens used: {response['usage']['totalTokens']}")
 
 ```python
 def on_chunk(chunk):
-    if chunk['choices'][0]['delta'].get('content'):
-        print(chunk['choices'][0]['delta']['content'], end='', flush=True)
+    if chunk.get('type') == 'content' and chunk.get('content'):
+        print(chunk['content'], end='', flush=True)
+
+def on_complete(message):
+    print(f"\n\nMessage ID: {message['id']}")
 
 client.messages.stream(
     conversation_id='conv_123',
     data={'content': 'Tell me a story'},
-    on_chunk=on_chunk
+    on_chunk=on_chunk,
+    on_complete=on_complete
 )
 ```
 
