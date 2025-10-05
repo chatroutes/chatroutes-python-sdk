@@ -26,16 +26,15 @@ class ConversationsResource:
     def list(self, params: Optional[ListConversationsParams] = None) -> PaginatedResponse:
         response = self._client._http.get('/conversations', params=params or {})
 
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to list conversations'))
+        if 'conversations' not in response:
+            raise Exception(response.get('error', 'Failed to list conversations'))
 
-        data = response['data']
         return {
-            'data': data['conversations'],
-            'total': data['total'],
-            'page': data['page'],
-            'limit': data['limit'],
-            'hasNext': data.get('hasNext')
+            'data': response['conversations'],
+            'total': response['total'],
+            'page': response['page'],
+            'limit': response['limit'],
+            'hasNext': response.get('hasNext', False)
         }
 
     def get(self, conversation_id: str) -> Conversation:
@@ -64,6 +63,6 @@ class ConversationsResource:
         response = self._client._http.get(f'/conversations/{conversation_id}/tree')
 
         if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to get conversation tree'))
+            raise Exception(response.get('error', 'Failed to get conversation tree'))
 
         return response['data']
