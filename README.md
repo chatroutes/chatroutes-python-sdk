@@ -1,8 +1,20 @@
 # ChatRoutes Python SDK
 
+[![PyPI](https://img.shields.io/pypi/v/chatroutes.svg)](https://pypi.org/project/chatroutes/)
+[![Python](https://img.shields.io/pypi/pyversions/chatroutes.svg)](https://pypi.org/project/chatroutes/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-python-sdk/blob/main/chatroutes_quickstart.ipynb)
+
 Official Python SDK for the ChatRoutes API - A powerful conversation management platform with advanced branching capabilities.
 
 > **⚠️ Beta Release**: ChatRoutes is currently in beta. The API may change without maintaining backward compatibility. Please use with caution in production environments.
+
+## 🚀 Try It Now!
+
+**Want to try ChatRoutes immediately?** Click the badge below to open an interactive notebook in Google Colab:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-python-sdk/blob/main/chatroutes_quickstart.ipynb)
+
+No installation required - just run the cells and start experimenting!
 
 ## Installation
 
@@ -14,12 +26,13 @@ pip install chatroutes
 
 ### 1. Get Your API Key
 
-First, you need to obtain an API key:
+**IMPORTANT:** Before you can use ChatRoutes, you must obtain an API key:
 
-1. Visit [chatroutes.com](https://chatroutes.com)
-2. Sign up for a free account
-3. Navigate to your account settings
-4. Generate your API key
+1. **Visit** [chatroutes.com](https://chatroutes.com)
+2. **Sign up** for a **free account**
+3. **Go to Dashboard** → Navigate to the **API section**
+4. **Generate** your API key
+5. **Copy** and save your API key securely
 
 ### 2. Quick Start
 
