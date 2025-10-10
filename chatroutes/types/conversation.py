@@ -9,6 +9,10 @@ class MessageMetadata(TypedDict, total=False):
     responseTime: float
     finishReason: str
     cost: float
+    context_truncated: Optional[bool]
+    checkpoint_used: Optional[bool]
+    prompt_tokens: Optional[int]
+    context_message_count: Optional[int]
 
 
 class Message(TypedDict, total=False):

@@ -1,6 +1,6 @@
 from typing import Optional
 from .http_client import HttpClient
-from .resources import ConversationsResource, MessagesResource, BranchesResource
+from .resources import ConversationsResource, MessagesResource, BranchesResource, CheckpointsResource
 
 
 class ChatRoutes:
@@ -23,6 +23,7 @@ class ChatRoutes:
         self.conversations = ConversationsResource(self)
         self.messages = MessagesResource(self)
         self.branches = BranchesResource(self)
+        self.checkpoints = CheckpointsResource(self)
 
     @property
     def api_key(self) -> str:

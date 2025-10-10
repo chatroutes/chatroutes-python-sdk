@@ -13,6 +13,11 @@ from .conversation import (
     PaginatedResponse,
     StreamChunk
 )
+from .checkpoint import (
+    Checkpoint,
+    CheckpointCreateRequest,
+    CheckpointListResponse
+)
 
 __all__ = [
     'Conversation',
@@ -27,5 +32,8 @@ __all__ = [
     'TreeNode',
     'ListConversationsParams',
     'PaginatedResponse',
-    'StreamChunk'
+    'StreamChunk',
+    'Checkpoint',
+    'CheckpointCreateRequest',
+    'CheckpointListResponse'
 ]

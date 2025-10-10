@@ -12,11 +12,14 @@ from .types import (
     Conversation,
     Message,
     Branch,
+    Checkpoint,
     CreateConversationRequest,
     SendMessageRequest,
     SendMessageResponse,
     CreateBranchRequest,
     ForkConversationRequest,
+    CheckpointCreateRequest,
+    CheckpointListResponse,
     ConversationTree,
     TreeNode,
     ListConversationsParams,
@@ -24,7 +27,7 @@ from .types import (
     StreamChunk
 )
 
-__version__ = '0.1.4'
+__version__ = '0.2.0'
 
 __all__ = [
     'ChatRoutes',
@@ -38,11 +41,14 @@ __all__ = [
     'Conversation',
     'Message',
     'Branch',
+    'Checkpoint',
     'CreateConversationRequest',
     'SendMessageRequest',
     'SendMessageResponse',
     'CreateBranchRequest',
     'ForkConversationRequest',
+    'CheckpointCreateRequest',
+    'CheckpointListResponse',
     'ConversationTree',
     'TreeNode',
     'ListConversationsParams',

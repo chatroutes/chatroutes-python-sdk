@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-10-10
+
+### Added
+- Checkpoint API support for managing conversation context
+- New `CheckpointsResource` with methods:
+  - `list(conversation_id, branch_id=None)` - List checkpoints
+  - `create(conversation_id, branch_id, anchor_message_id)` - Create manual checkpoint
+  - `delete(checkpoint_id)` - Delete checkpoint
+  - `recreate(checkpoint_id)` - Recreate checkpoint
+- Enhanced message metadata with checkpoint-related fields:
+  - `context_truncated` - Indicates if context was truncated
+  - `checkpoint_used` - Indicates if a checkpoint was used
+  - `prompt_tokens` - Token count for the prompt
+  - `context_message_count` - Number of messages in context
+- New types for checkpoint support:
+  - `Checkpoint` - Checkpoint object type
+  - `CheckpointCreateRequest` - Request type for creating checkpoints
+  - `CheckpointListResponse` - Response type for listing checkpoints
+- Example code demonstrating checkpoint usage in `examples/checkpoint_example.py`
+
+### Changed
+- Updated `MessageMetadata` TypedDict to include new optional checkpoint fields
+- Updated client initialization to include `checkpoints` resource
+
 ## [0.1.0] - 2025-10-04
 
 ### Added
@@ -38,5 +62,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - requests >= 2.31.0
 - typing-extensions >= 4.0.0
 
-[Unreleased]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/chatroutes/chatroutes-python-sdk/releases/tag/v0.1.0

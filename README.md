@@ -82,6 +82,7 @@ ChatRoutes currently supports the following AI models:
 - **Conversation Management**: Create, list, update, and delete conversations
 - **Message Handling**: Send messages with support for streaming responses
 - **Branch Operations**: Create and manage conversation branches for exploring alternatives
+- **Checkpoint Management**: Save and restore conversation context at specific points
 - **Type Safety**: Full type hints using TypedDict for better IDE support
 - **Error Handling**: Comprehensive exception hierarchy for different error scenarios
 - **Retry Logic**: Built-in exponential backoff retry mechanism
@@ -164,6 +165,39 @@ for conv in result['data']:
     print(f"{conv['title']} - {conv['createdAt']}")
 ```
 
+### Managing Checkpoints
+
+Checkpoints allow you to save conversation context at specific points and manage long conversations efficiently:
+
+```python
+branches = client.branches.list(conversation_id='conv_123')
+main_branch = next(b for b in branches if b['isMain'])
+
+checkpoint = client.checkpoints.create(
+    conversation_id='conv_123',
+    branch_id=main_branch['id'],
+    anchor_message_id='msg_456'
+)
+
+print(f"Checkpoint created: {checkpoint['id']}")
+print(f"Summary: {checkpoint['summary']}")
+print(f"Token count: {checkpoint['token_count']}")
+
+checkpoints = client.checkpoints.list('conv_123')
+for cp in checkpoints:
+    print(f"{cp['id']}: {cp['summary']}")
+
+response = client.messages.send(
+    conversation_id='conv_123',
+    data={'content': 'Continue the conversation'}
+)
+
+metadata = response['message'].get('metadata', {})
+if metadata.get('checkpoint_used'):
+    print(f"Checkpoint was used for this response")
+    print(f"Context messages: {metadata.get('context_message_count')}")
+```
+
 ## Error Handling
 
 The SDK provides specific exception types for different error scenarios:
@@ -231,18 +265,29 @@ client = ChatRoutes(
 - `get_messages(conversation_id: str, branch_id: str) -> List[Message]`
 - `merge(conversation_id: str, branch_id: str) -> Branch`
 
+### Checkpoints Resource
+
+- `list(conversation_id: str, branch_id: Optional[str] = None) -> List[Checkpoint]`
+- `create(conversation_id: str, branch_id: str, anchor_message_id: str) -> Checkpoint`
+- `delete(checkpoint_id: str) -> None`
+- `recreate(checkpoint_id: str) -> Checkpoint`
+
 ## Type Definitions
 
 The SDK includes comprehensive type definitions using TypedDict:
 
 - `Conversation`
 - `Message`
+- `MessageMetadata` (includes checkpoint-related fields)
 - `Branch`
+- `Checkpoint`
 - `CreateConversationRequest`
 - `SendMessageRequest`
 - `SendMessageResponse`
 - `CreateBranchRequest`
 - `ForkConversationRequest`
+- `CheckpointCreateRequest`
+- `CheckpointListResponse`
 - `ConversationTree`
 - `TreeNode`
 - `ListConversationsParams`
