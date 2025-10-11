@@ -5,6 +5,10 @@ PUBLISHING_INTERNAL.md
 *INTERNAL*
 *.private.*
 
+# Documentation - exclude all .md files except README.md
+*.md
+!README.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
