@@ -253,3 +253,77 @@ MIT License - see LICENSE file for details
 ---
 
 **🎯 Ready to demonstrate ChatRoutes?** Open the Colab notebook and start exploring!
+
+## 🐛 Common Errors & Solutions
+
+### Error: "Failed to send message"
+**Symptom:** `ServerError: Failed to send message` when calling `client.messages.send()`
+
+**Possible Causes:**
+1. **API Key Issues**
+   - Invalid or expired API key
+   - API key doesn't have proper permissions
+   - Solution: Generate a new API key from your dashboard
+
+2. **Quota Exceeded**
+   - User has reached their token quota limit
+   - Check your usage dashboard
+   - Solution: Wait for quota reset or upgrade plan
+
+3. **Model Not Available**
+   - Using unsupported model (e.g., `gpt-4` instead of `gpt-5`)
+   - Solution: Use supported models: `gpt-5`, `claude-opus-4-1`, `claude-sonnet-4-5`, etc.
+
+4. **Backend Service Issues**
+   - OpenAI/Anthropic API keys not configured on backend
+   - Backend database connection issues
+   - Solution: Contact support or check service status
+
+**Debug Steps:**
+```python
+# 1. Test API key is valid
+try:
+    convs = client.conversations.list()
+    print(f"✅ API key valid, found {convs['total']} conversations")
+except Exception as e:
+    print(f"❌ API key error: {e}")
+
+# 2. Check your quota usage
+# Login to https://dashboard.chatroutes.com to check your token quota
+# Free tier: 10,000 tokens/month
+# Pro tier: 1,000,000 tokens/month
+
+# 3. Try with a simpler message
+try:
+    response = client.messages.send(
+        conversation_id,
+        {'content': 'Hi', 'model': 'gpt-5'}
+    )
+    print("✅ Message sent successfully")
+    print(f"Used {response['usage']['totalTokens']} tokens")
+except Exception as e:
+    print(f"❌ Send error: {e}")
+    print("\nIf you see 'Failed to send message', check:")
+    print("  1. Your ChatRoutes quota (dashboard.chatroutes.com)")
+    print("  2. Service status (status.chatroutes.com)")
+    print("  3. Try a different model (claude-sonnet-4-5)")
+
+# 4. Check conversation exists
+try:
+    conv = client.conversations.get(conversation_id)
+    print(f"✅ Conversation exists: {conv['id']}")
+except Exception as e:
+    print(f"❌ Conversation error: {e}")
+```
+
+### Error: "Unsupported model"
+**Solution:** Use one of these supported models:
+- `gpt-5` (recommended for demos)
+- `claude-opus-4-1`
+- `claude-sonnet-4-5`
+- `claude-3-7-sonnet-latest`
+
+### Error: "Conversation not found"
+**Cause:** Conversation ID is invalid or belongs to different user
+**Solution:** Create a new conversation or verify the ID is correct
+

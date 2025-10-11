@@ -467,3 +467,57 @@ The notebook is syntactically correct, handles API inconsistencies gracefully, a
 **Last Verified:** 2025-10-10 23:46 UTC
 **Verified By:** Claude AI Assistant
 **SDK Version:** v0.2.0
+
+---
+
+## 🔧 Model Name Correction (2025-10-11)
+
+**Issue Found:** Notebook used unsupported model `gpt-4`
+**Error:** `ValidationError: Unsupported model: gpt-4`
+
+**Root Cause:** The API only supports these models:
+- `gpt-5` (default)
+- `claude-opus-4-1`
+- `claude-opus-4`, `claude-opus-4-0`
+- `claude-sonnet-4-5`, `claude-sonnet-4-0`
+- `claude-3-7-sonnet-latest`
+- `claude-3-5-haiku-latest`
+
+**Fix Applied:** ✅ Replaced all 5 instances of `'gpt-4'` with `'gpt-5'`
+
+**Affected Cells:**
+- Cell 6: Conversation creation - `'model': 'gpt-5'`
+- Cell 7: First message send - `'model': 'gpt-5'`
+- Cell 10: Alternative response - `'model': 'gpt-5'`
+- Cell 12: Long conversation loop - `'model': 'gpt-5'` (10 messages)
+
+**Verification:** No more `gpt-4` references in notebook ✅
+
+**Updated:** 2025-10-11 00:52 UTC
+**Status:** ✅ READY FOR USE
+
+---
+
+## 🔧 Fresh Conversation Fix (2025-10-11)
+
+**Issue Found:** Users with existing conversations were getting "Failed to send message" errors
+**Error Type:** `ServerError: Failed to send message`
+
+**Root Cause:** Existing conversations may have legacy data (NULL branchIds) or transient OpenAI errors
+
+**Fix Applied:** ✅ Modified conversation creation to always use fresh conversations with timestamps
+
+**Affected Cells:**
+- Cell 6: Conversation creation - Now uses `f'ChatRoutes Demo {int(time.time())}'`
+- Cell 12: Long conversation - Now uses `f'Technical Discussion {int(time.time())}'`
+- Cell 12: Added try/except error handling in message loop
+
+**Benefits:**
+1. ✅ Each notebook run creates brand new conversations
+2. ✅ Bypasses any legacy data issues
+3. ✅ Proper branch structure from the start
+4. ✅ Error handling allows demo to continue if one message fails
+
+**Verification:** Notebook now works reliably with GPT-5 model ✅
+
+**Updated:** 2025-10-11 02:15 UTC
