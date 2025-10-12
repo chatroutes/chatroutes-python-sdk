@@ -10,11 +10,19 @@ Official Python SDK for the ChatRoutes API - A powerful conversation management 
 
 ## 🚀 Try It Now!
 
+### Quickstart (5-10 minutes)
 **Want to try ChatRoutes immediately?** Click the badge below to open an interactive notebook in Google Colab:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-python-sdk/blob/main/chatroutes_quickstart.ipynb)
 
 No installation required - just run the cells and start experimenting!
+
+### Complete Feature Demo (20-30 minutes)
+**Want to see ALL features in action?** Watch branching, checkpoints, tree visualization, and immutability:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-python-sdk/blob/main/demo_complete_features.ipynb)
+
+Perfect for sales demos, presentations, and comprehensive exploration!
 
 ## Installation
 

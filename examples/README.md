@@ -1,14 +1,16 @@
 # ChatRoutes Python SDK - Examples
 
-This folder contains example notebooks and scripts demonstrating ChatRoutes features.
+This folder contains specialized example scripts demonstrating specific ChatRoutes features.
+
+> **📝 Note:** The comprehensive feature demo notebook has been moved to the root directory as `demo_complete_features.ipynb`. See the main README for Colab links.
 
 ## 🚀 Quick Start
 
-### Google Colab (Recommended for Video Presentations)
+### Main Notebooks (in Root Directory)
 
-**ChatRoutes_Complete_Demo.ipynb** - Comprehensive feature demonstration
+**demo_complete_features.ipynb** - Comprehensive feature demonstration (20-30 min)
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-python-sdk/blob/main/examples/ChatRoutes_Complete_Demo.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-python-sdk/blob/main/demo_complete_features.ipynb)
 
 **What's Included:**
 - ✅ Basic conversation management
