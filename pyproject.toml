@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chatroutes"
-version = "0.2.1"
+version = "0.2.2"
 description = "Official Python SDK for ChatRoutes API - Conversation branching and multi-model AI chat"
 readme = "README.md"
 requires-python = ">=3.8"
