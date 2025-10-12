@@ -65,6 +65,17 @@ class BranchesResource:
 
         return response['data']['messages']
 
+    def send_message(self, conversation_id: str, branch_id: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        response = self._client._http.post(
+            f'/conversations/{conversation_id}/branches/{branch_id}/messages',
+            data
+        )
+
+        if not response.get('success') or 'data' not in response:
+            raise Exception(response.get('message', 'Failed to send message to branch'))
+
+        return response['data']
+
     def merge(self, conversation_id: str, branch_id: str) -> Branch:
         response = self._client._http.post(
             f'/conversations/{conversation_id}/branches/{branch_id}/merge',
