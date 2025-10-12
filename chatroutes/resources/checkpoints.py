@@ -26,8 +26,8 @@ class CheckpointsResource:
 
     def create(self, conversation_id: str, branch_id: str, anchor_message_id: str) -> Checkpoint:
         data: CheckpointCreateRequest = {
-            'branch_id': branch_id,
-            'anchor_message_id': anchor_message_id
+            'branchId': branch_id,
+            'anchorMessageId': anchor_message_id
         }
 
         response = self._client._http.post(

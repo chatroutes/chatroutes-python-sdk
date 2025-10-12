@@ -12,8 +12,8 @@ class Checkpoint(TypedDict, total=False):
 
 
 class CheckpointCreateRequest(TypedDict, total=False):
-    branch_id: str
-    anchor_message_id: str
+    branchId: str
+    anchorMessageId: str
 
 
 class CheckpointListResponse(TypedDict):
