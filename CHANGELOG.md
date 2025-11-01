@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.3] - 2025-11-01
+
+### Added
+- **AutoBranch Feature** 🆕 - AI-powered automatic detection of branching opportunities
+  - New `AutoBranchResource` with methods:
+    - `suggest_branches()` - Analyze text and suggest branch points with AI
+    - `analyze_text()` - Alias for suggest_branches
+    - `health()` - Check AutoBranch service health
+  - Support for both pattern-based and hybrid (pattern + LLM) detection modes
+  - Configurable parameters:
+    - `suggestions_count` - Number of suggestions to return (1-10)
+    - `hybrid_detection` - Enable LLM enhancement for better accuracy
+    - `threshold` - Minimum confidence level (0.0-1.0)
+    - `llm_model` - Specify LLM model for hybrid mode
+- New types for AutoBranch support:
+  - `BranchPoint` - Branch location in text
+  - `BranchSuggestion` - Individual branch suggestion
+  - `SuggestionMetadata` - Detection metadata
+  - `SuggestBranchesRequest` - Request type
+  - `SuggestBranchesResponse` - Response type
+  - `HealthResponse` - Health check response
+- Comprehensive test suite with 19 tests covering all scenarios
+- Updated demo notebook with AutoBranch examples
+- Updated integration tests in `test_complete_flow.py`
+
+### Changed
+- Updated client initialization to include `autobranch` resource
+- Enhanced `__init__.py` to export AutoBranch types
+- Updated notebooks with AutoBranch demonstration (Part 2.5)
+
+### Documentation
+- Updated README with AutoBranch usage examples
+- Added AutoBranch API reference
+- Documented use cases and configuration options
+
+### Testing
+- 100% test coverage for AutoBranch module
+- Tests for health checks, suggestions, error handling, and edge cases
+- Integration tests for real-world scenarios
+
 ## [0.2.0] - 2025-10-10
 
 ### Added
@@ -62,6 +102,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - requests >= 2.31.0
 - typing-extensions >= 4.0.0
 
-[Unreleased]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.2.0...v0.2.3
 [0.2.0]: https://github.com/chatroutes/chatroutes-python-sdk/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/chatroutes/chatroutes-python-sdk/releases/tag/v0.1.0

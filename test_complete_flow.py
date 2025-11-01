@@ -111,8 +111,58 @@ try:
 except Exception as e:
     print(f"   ⚠️  Tree endpoint error (known issue): {str(e)}")
 
-# 8. Cleanup
-print("\n8️⃣  Cleaning up...")
+# 8. Test AutoBranch - Health Check
+print("\n8️⃣  Testing AutoBranch - Health Check...")
+try:
+    health = client.autobranch.health()
+    print(f"   ✅ AutoBranch Status: {health['status']}")
+    print(f"   🔧 Service: {health['service']}")
+    print(f"   📦 Version: {health['version']}")
+except Exception as e:
+    print(f"   ⚠️  AutoBranch health check error: {str(e)}")
+
+# 9. Test AutoBranch - Suggest Branches (Pattern Detection)
+print("\n9️⃣  Testing AutoBranch - Pattern Detection...")
+try:
+    test_text = "I need help with pricing information and technical support for my account."
+    suggestions = client.autobranch.suggest_branches(
+        text=test_text,
+        suggestions_count=3,
+        hybrid_detection=False,
+        threshold=0.7
+    )
+    print(f"   ✅ Branch suggestions received")
+    print(f"   📊 Total branch points found: {suggestions['metadata']['totalBranchPointsFound']}")
+    print(f"   🔍 Detection method: {suggestions['metadata']['detectionMethod']}")
+    if suggestions['suggestions']:
+        print(f"   🌿 Suggestions:")
+        for i, suggestion in enumerate(suggestions['suggestions'][:3], 1):
+            print(f"      {i}. {suggestion['title']} (confidence: {suggestion['confidence']:.2f})")
+            print(f"         Trigger: '{suggestion['triggerText']}'")
+    else:
+        print("   ℹ️  No branch points detected")
+except Exception as e:
+    print(f"   ⚠️  AutoBranch suggest error: {str(e)}")
+
+# 10. Test AutoBranch - Analyze Text (Alias)
+print("\n🔟  Testing AutoBranch - Analyze Text Alias...")
+try:
+    analysis = client.autobranch.analyze_text(
+        text="How do I reset my password?",
+        suggestions_count=2
+    )
+    print(f"   ✅ Text analysis complete")
+    print(f"   📊 Suggestions: {len(analysis['suggestions'])}")
+    if analysis['suggestions']:
+        top = analysis['suggestions'][0]
+        print(f"   🎯 Top suggestion: {top['title']}")
+        print(f"      Confidence: {top['confidence']:.2f}")
+        print(f"      Divergence: {top['estimatedDivergence']}")
+except Exception as e:
+    print(f"   ⚠️  AutoBranch analyze error: {str(e)}")
+
+# 11. Cleanup
+print("\n1️⃣1️⃣  Cleaning up...")
 client.conversations.delete(conversation['id'])
 print("   ✅ Conversation deleted")
 
@@ -126,4 +176,7 @@ print("  ✓ Branch creation")
 print("  ✓ Messages in branches")
 print("  ✓ Branch listing")
 print("  ✓ Conversation tree")
+print("  ✓ AutoBranch health check")
+print("  ✓ AutoBranch suggest branches")
+print("  ✓ AutoBranch analyze text")
 print("  ✓ Cleanup")

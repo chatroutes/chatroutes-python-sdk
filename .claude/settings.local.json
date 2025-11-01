@@ -3,7 +3,10 @@
     "allow": [
       "Bash(rm:*)",
       "Bash(python:*)",
-      "Bash(twine check:*)"
+      "Bash(twine check:*)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(twine upload:*)"
     ],
     "deny": [],
     "ask": []

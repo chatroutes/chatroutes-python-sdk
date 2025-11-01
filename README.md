@@ -90,6 +90,7 @@ ChatRoutes currently supports the following AI models:
 - **Conversation Management**: Create, list, update, and delete conversations
 - **Message Handling**: Send messages with support for streaming responses
 - **Branch Operations**: Create and manage conversation branches for exploring alternatives
+- **AutoBranch** 🆕: AI-powered automatic detection of branching opportunities in conversations
 - **Checkpoint Management**: Save and restore conversation context at specific points
 - **Type Safety**: Full type hints using TypedDict for better IDE support
 - **Error Handling**: Comprehensive exception hierarchy for different error scenarios
@@ -172,6 +173,48 @@ result = client.conversations.list({
 for conv in result['data']:
     print(f"{conv['title']} - {conv['createdAt']}")
 ```
+
+### AutoBranch - AI-Powered Branch Detection 🆕
+
+AutoBranch automatically detects opportunities for conversation branching using AI:
+
+```python
+# Check AutoBranch service health
+health = client.autobranch.health()
+print(f"Status: {health['status']}")
+
+# Analyze text for potential branch points
+text = """
+I need help with billing and also have a technical question about the API.
+Can you help with both?
+"""
+
+suggestions = client.autobranch.suggest_branches(
+    text=text,
+    suggestions_count=3,
+    hybrid_detection=False,  # Set True to use LLM enhancement
+    threshold=0.7
+)
+
+# Review suggestions
+for suggestion in suggestions['suggestions']:
+    print(f"Branch: {suggestion['title']}")
+    print(f"  Description: {suggestion['description']}")
+    print(f"  Confidence: {suggestion['confidence']:.0%}")
+    print(f"  Trigger: '{suggestion['triggerText']}'")
+
+# Alternative: Use analyze_text alias
+analysis = client.autobranch.analyze_text(
+    text="How do I reset my password?",
+    suggestions_count=2
+)
+```
+
+**AutoBranch Use Cases:**
+- **Customer Support**: Auto-detect when users need technical vs billing help
+- **Multi-Intent Detection**: Identify when users ask multiple questions
+- **Smart Routing**: Route conversations to appropriate teams/bots
+- **Quality Assurance**: Ensure all customer needs are addressed
 
 ### Managing Checkpoints
 
@@ -280,6 +323,12 @@ client = ChatRoutes(
 - `delete(checkpoint_id: str) -> None`
 - `recreate(checkpoint_id: str) -> Checkpoint`
 
+### AutoBranch Resource 🆕
+
+- `suggest_branches(text: str, suggestions_count: int = 3, hybrid_detection: bool = False, threshold: float = 0.7, llm_model: Optional[str] = None, llm_provider: Optional[str] = None, llm_api_key: Optional[str] = None) -> SuggestBranchesResponse`
+- `analyze_text(text: str, suggestions_count: int = 3, hybrid_detection: bool = False, threshold: float = 0.7, llm_model: Optional[str] = None) -> SuggestBranchesResponse`
+- `health() -> HealthResponse`
+
 ## Type Definitions
 
 The SDK includes comprehensive type definitions using TypedDict:
@@ -301,6 +350,12 @@ The SDK includes comprehensive type definitions using TypedDict:
 - `ListConversationsParams`
 - `PaginatedResponse`
 - `StreamChunk`
+- `BranchPoint` 🆕
+- `BranchSuggestion` 🆕
+- `SuggestionMetadata` 🆕
+- `SuggestBranchesRequest` 🆕
+- `SuggestBranchesResponse` 🆕
+- `HealthResponse` 🆕
 
 ## Development
 

@@ -5,10 +5,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="chatroutes",
-    version="0.2.0",
+    version="0.2.3",
     author="ChatRoutes",
     author_email="support@chatroutes.com",
-    description="Official Python SDK for ChatRoutes API - Conversation branching and multi-model AI chat",
+    description="Official Python SDK for ChatRoutes API - Conversation branching, AutoBranch, and multi-model AI chat",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/chatroutes/chatroutes-python-sdk",
@@ -44,5 +44,5 @@ setup(
             "flake8>=6.0.0",
         ],
     },
-    keywords="chatroutes ai chat conversation branching multi-model gpt claude api sdk",
+    keywords="chatroutes ai chat conversation branching autobranch multi-model gpt claude api sdk",
 )

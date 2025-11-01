@@ -18,6 +18,14 @@ from .checkpoint import (
     CheckpointCreateRequest,
     CheckpointListResponse
 )
+from .autobranch import (
+    BranchPoint,
+    BranchSuggestion,
+    SuggestionMetadata,
+    SuggestBranchesRequest,
+    SuggestBranchesResponse,
+    HealthResponse
+)
 
 __all__ = [
     'Conversation',
@@ -35,5 +43,11 @@ __all__ = [
     'StreamChunk',
     'Checkpoint',
     'CheckpointCreateRequest',
-    'CheckpointListResponse'
+    'CheckpointListResponse',
+    'BranchPoint',
+    'BranchSuggestion',
+    'SuggestionMetadata',
+    'SuggestBranchesRequest',
+    'SuggestBranchesResponse',
+    'HealthResponse'
 ]

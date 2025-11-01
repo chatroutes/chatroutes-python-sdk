@@ -24,10 +24,16 @@ from .types import (
     TreeNode,
     ListConversationsParams,
     PaginatedResponse,
-    StreamChunk
+    StreamChunk,
+    BranchPoint,
+    BranchSuggestion,
+    SuggestionMetadata,
+    SuggestBranchesRequest,
+    SuggestBranchesResponse,
+    HealthResponse
 )
 
-__version__ = '0.2.0'
+__version__ = '0.2.3'
 
 __all__ = [
     'ChatRoutes',
@@ -53,5 +59,11 @@ __all__ = [
     'TreeNode',
     'ListConversationsParams',
     'PaginatedResponse',
-    'StreamChunk'
+    'StreamChunk',
+    'BranchPoint',
+    'BranchSuggestion',
+    'SuggestionMetadata',
+    'SuggestBranchesRequest',
+    'SuggestBranchesResponse',
+    'HealthResponse'
 ]
