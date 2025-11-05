@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class AutoBranchResource:
     def __init__(self, client: 'ChatRoutes', autobranch_base_url: Optional[str] = None):
         self._client = client
-        self._base_url = autobranch_base_url or "http://autobranch.chatroutes.internal:8000"
+        self._base_url = autobranch_base_url or f"{client.base_url}/autobranch"
 
     def suggest_branches(
         self,
@@ -43,11 +43,14 @@ class AutoBranchResource:
             response = requests.post(
                 f"{self._base_url}/suggest-branches",
                 json=data,
-                headers={'Authorization': f'ApiKey {self._client.api_key}'},
+                headers=self._client._get_headers(),
                 timeout=30
             )
             response.raise_for_status()
-            return response.json()
+            result = response.json()
+            if 'data' in result:
+                return result['data']
+            return result
         except requests.exceptions.RequestException as e:
             raise Exception(f"AutoBranch request failed: {str(e)}")
 
@@ -75,6 +78,9 @@ class AutoBranchResource:
                 timeout=5
             )
             response.raise_for_status()
-            return response.json()
+            result = response.json()
+            if 'data' in result:
+                return result['data']
+            return result
         except requests.exceptions.RequestException as e:
             raise Exception(f"AutoBranch health check failed: {str(e)}")
