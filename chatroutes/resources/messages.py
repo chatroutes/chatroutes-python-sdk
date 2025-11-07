@@ -16,11 +16,7 @@ class MessagesResource:
 
     def send(self, conversation_id: str, data: SendMessageRequest) -> SendMessageResponse:
         response = self._client._http.post(f'/conversations/{conversation_id}/messages', data)
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to send message'))
-
-        return response['data']
+        return response.get('data', response)
 
     def stream(
         self,
@@ -47,22 +43,11 @@ class MessagesResource:
             params['branchId'] = branch_id
 
         response = self._client._http.get(f'/conversations/{conversation_id}/messages', params=params)
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to list messages'))
-
-        return response['data']['messages']
+        return response.get('data', {}).get('messages', response.get('messages', []))
 
     def update(self, message_id: str, content: str) -> Message:
         response = self._client._http.patch(f'/messages/{message_id}', {'content': content})
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to update message'))
-
-        return response['data']['message']
+        return response.get('data', {}).get('message', response)
 
     def delete(self, message_id: str) -> None:
-        response = self._client._http.delete(f'/messages/{message_id}')
-
-        if not response.get('success'):
-            raise Exception(response.get('message', 'Failed to delete message'))
+        self._client._http.delete(f'/messages/{message_id}')

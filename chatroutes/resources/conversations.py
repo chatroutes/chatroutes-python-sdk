@@ -17,52 +17,29 @@ class ConversationsResource:
 
     def create(self, data: CreateConversationRequest) -> Conversation:
         response = self._client._http.post('/conversations', data)
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to create conversation'))
-
-        return response['data']['conversation']
+        return response.get('data', {}).get('conversation', response)
 
     def list(self, params: Optional[ListConversationsParams] = None) -> PaginatedResponse:
         response = self._client._http.get('/conversations', params=params or {})
-
-        if 'conversations' not in response:
-            raise Exception(response.get('error', 'Failed to list conversations'))
-
         return {
-            'data': response['conversations'],
-            'total': response['total'],
-            'page': response['page'],
-            'limit': response['limit'],
+            'data': response.get('conversations', []),
+            'total': response.get('total', 0),
+            'page': response.get('page', 1),
+            'limit': response.get('limit', 10),
             'hasNext': response.get('hasNext', False)
         }
 
     def get(self, conversation_id: str) -> Conversation:
         response = self._client._http.get(f'/conversations/{conversation_id}')
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to get conversation'))
-
-        return response['data']['conversation']
+        return response.get('data', {}).get('conversation', response)
 
     def update(self, conversation_id: str, data: Dict[str, Any]) -> Conversation:
         response = self._client._http.patch(f'/conversations/{conversation_id}', data)
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to update conversation'))
-
-        return response['data']['conversation']
+        return response.get('data', {}).get('conversation', response)
 
     def delete(self, conversation_id: str) -> None:
-        response = self._client._http.delete(f'/conversations/{conversation_id}')
-
-        if not response.get('success'):
-            raise Exception(response.get('message', 'Failed to delete conversation'))
+        self._client._http.delete(f'/conversations/{conversation_id}')
 
     def get_tree(self, conversation_id: str) -> ConversationTree:
         response = self._client._http.get(f'/conversations/{conversation_id}/tree')
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('error', 'Failed to get conversation tree'))
-
-        return response['data']
+        return response.get('data', response)

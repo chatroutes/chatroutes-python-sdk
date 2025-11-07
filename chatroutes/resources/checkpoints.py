@@ -18,11 +18,7 @@ class CheckpointsResource:
             f'/conversations/{conversation_id}/checkpoints',
             params=params
         )
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to list checkpoints'))
-
-        return response['data']['checkpoints']
+        return response.get('data', {}).get('checkpoints', response.get('checkpoints', []))
 
     def create(self, conversation_id: str, branch_id: str, anchor_message_id: str) -> Checkpoint:
         data: CheckpointCreateRequest = {
@@ -34,22 +30,11 @@ class CheckpointsResource:
             f'/conversations/{conversation_id}/checkpoints',
             data
         )
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to create checkpoint'))
-
-        return response['data']['checkpoint']
+        return response.get('data', {}).get('checkpoint', response)
 
     def delete(self, checkpoint_id: str) -> None:
-        response = self._client._http.delete(f'/checkpoints/{checkpoint_id}')
-
-        if not response.get('success'):
-            raise Exception(response.get('message', 'Failed to delete checkpoint'))
+        self._client._http.delete(f'/checkpoints/{checkpoint_id}')
 
     def recreate(self, checkpoint_id: str) -> Checkpoint:
         response = self._client._http.post(f'/checkpoints/{checkpoint_id}/recreate', {})
-
-        if not response.get('success') or 'data' not in response:
-            raise Exception(response.get('message', 'Failed to recreate checkpoint'))
-
-        return response['data']['checkpoint']
+        return response.get('data', {}).get('checkpoint', response)

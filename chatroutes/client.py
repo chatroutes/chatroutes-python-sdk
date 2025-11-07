@@ -40,3 +40,6 @@ class ChatRoutes:
     @property
     def base_url(self) -> str:
         return self._http.base_url
+
+    def _get_headers(self) -> dict:
+        return self._http.session.headers.copy()
